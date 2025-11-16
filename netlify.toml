@@ -1,0 +1,71 @@
+[build]
+  publish = "."
+  command = "echo 'Build complete'"
+
+# Configuration des redirections
+[[redirects]]
+  from = "/"
+  to = "/goat.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/goat.html"
+  status = 200
+
+# Redirections spécifiques pour les pages
+[[redirects]]
+  from = "/home"
+  to = "/goat.html"
+  status = 301
+
+[[redirects]]
+  from = "/accueil"
+  to = "/goat.html"
+  status = 301
+
+# Configuration des en-têtes pour la sécurité et les performances
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Configuration de l'environnement
+[build.environment]
+  NODE_VERSION = "18"
+
+# Configuration des redirects pour le SPA (si nécessaire)
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Configuration du traitement des formulaires (si nécessaire)
+[[redirects]]
+  from = "/success"
+  to = "/goat.html#success"
+  status = 302

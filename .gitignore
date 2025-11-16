@@ -33,3 +33,10 @@ package-lock.json
 # Notes personnelles
 NOTES.md
 TODO.md
+
+# Variables d'environnement
+.env
+.env.local
+
+# Netlify
+.netlify/

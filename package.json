@@ -1,0 +1,22 @@
+{
+  "name": "aris-travel",
+  "version": "1.0.0",
+  "description": "Plateforme de réservation de voyages - Aris.Dev",
+  "main": "goat.js",
+  "scripts": {
+    "start": "echo 'Open goat.html in your browser'",
+    "build": "echo 'Project ready for deployment'"
+  },
+  "keywords": [
+    "travel",
+    "booking",
+    "destinations",
+    "réservation"
+  ],
+  "author": "Aris.Dev",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}
