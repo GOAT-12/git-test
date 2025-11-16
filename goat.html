@@ -165,6 +165,25 @@
             <button class="btn"> View view-all</button>
         </div>
     </section>
+    <section class="search-book">
+        <h1 class="title">Rechercher et réserver</h1>
+        <div class="together" style="align-items: center; gap: 20px;">
+            <div class="input" style="flex:1; max-width: 520px;">
+                <input id="search-country" type="text" placeholder="Pays ou ville (ex: France, Kigali)" />
+            </div>
+            <div class="input" style="width:260px;">
+                <input id="search-price" type="number" min="0" placeholder="Prix max (USD)" />
+            </div>
+            <button id="search-btn" class="btn">Chercher</button>
+        </div>
+        <div id="search-results" class="box-list" style="margin-top:30px; width:100%; flex-wrap: wrap; gap: 20px;"></div>
+    </section>
+
+    <section class="reservations">
+        <h1 class="title">Mes réservations</h1>
+        <div id="reservations-list" class="box-list" style="width:100%; flex-direction: column; gap: 12px;"></div>
+    </section>
+
     <section class="email-tipt">
         <h1 class="title">Give Us your Email</h1>
         <div class="together">
@@ -184,5 +203,7 @@
          </div>
          <p class="right-footer">All right are reserved <span>&copy; 2024</span></p> 
     </footer>
+    <script src="auth.js"></script>
+    <script src="goat.js"></script>
 </body>
 </html>

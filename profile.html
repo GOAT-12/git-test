@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profil • Travel</title>
+  <link rel="stylesheet" href="goat.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <header>
+    <div class="logo-div">
+      <div class="logo">
+        <p>Aris<span>.Dev</span></p>
+      </div>
+    </div>
+    <ul>
+      <li><a href="goat.html">Home</a></li>
+      <li><a href="goat.html#destinations">Destination</a></li>
+      <li><a href="goat.html#pricing">Pricing</a></li>
+      <li><a href="goat.html#reviews">Reviews</a></li>
+    </ul>
+    <div class="btn-header">
+      <button class="btn">
+        <i class="fa-solid fa-user"></i>
+        <span>Se connecter</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="email-tipt">
+    <h1 class="title">Mon profil</h1>
+    <div class="together" style="align-items:flex-start; gap: 24px;">
+      <div class="text" style="max-width:480px;">
+        <p class="small-desc">Modifiez vos informations personnelles, changez votre avatar et gérez votre galerie d'images.</p>
+        <div class="profile-avatar-wrap">
+          <img id="profile-avatar-preview" class="avatar large" alt="avatar" />
+          <label class="btn" for="profile-avatar-input" style="cursor:pointer; display:inline-flex; align-items:center; gap:8px; margin-top:10px;">
+            <i class="fa-solid fa-camera"></i> Changer l'avatar
+          </label>
+          <input id="profile-avatar-input" type="file" accept="image/*" style="display:none;" />
+        </div>
+      </div>
+
+      <form id="profile-form" class="input" style="flex-direction: column; gap: 10px; padding: 16px; max-width: 520px; width: 100%;">
+        <input type="text" name="name" placeholder="Nom" required />
+        <input type="text" name="surname" placeholder="Prénom" required />
+        <input type="date" name="birthdate" placeholder="Date de naissance" required />
+        <div id="profile-age" class="small-desc" style="margin-top:-6px;">Âge: —</div>
+        <input type="text" name="location" placeholder="Situation géographique" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <label class="btn" for="profile-gallery-input" style="cursor:pointer; display:inline-flex; align-items:center; gap:8px;">
+            <i class="fa-solid fa-images"></i> Ajouter à la galerie
+          </label>
+          <input id="profile-gallery-input" type="file" accept="image/*" multiple style="display:none;" />
+          <button type="submit" class="btn"><i class="fa-solid fa-floppy-disk"></i> Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="profile-gallery">
+    <h1 class="title">Ma galerie</h1>
+    <div id="profile-gallery" class="gallery-grid"></div>
+  </section>
+
+  <footer>
+    <div class="logo">
+      <p>Aris<span>.Dev</span></p>
+    </div>
+    <p class="right-footer">All right are reserved <span>&copy; 2024</span></p>
+  </footer>
+
+  <script src="auth.js"></script>
+  <script>
+    (function(){
+      const $ = (s,r=document)=>r.querySelector(s);
+      const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+      const readUser = () => { try { return JSON.parse(localStorage.getItem('gt_user')||'null'); } catch { return null; } };
+      const writeUser = (u) => localStorage.setItem('gt_user', JSON.stringify(u));
+
+      document.addEventListener('DOMContentLoaded', () => {
+        // Gate: si pas connecté, rediriger vers login
+        const u = readUser();
+        if (!u) { location.href = 'login.html?redirect=profile.html'; return; }
+
+        // Pré-remplir
+        const form = $('#profile-form');
+        form.name.value = u.name || '';
+        form.surname.value = u.surname || '';
+        form.birthdate.value = u.birthdate || '';
+        form.location.value = u.location || '';
+        form.email.value = u.email || '';
+
+        // Calcul et affichage de l'âge depuis la date de naissance
+        const ageText = document.getElementById('profile-age');
+        const calcAge = (birthdateStr) => {
+          if (!birthdateStr) return null;
+          const d = new Date(birthdateStr);
+          if (isNaN(d)) return null;
+          const now = new Date();
+          let age = now.getFullYear() - d.getFullYear();
+          const m = now.getMonth() - d.getMonth();
+          if (m < 0 || (m === 0 && now.getDate() < d.getDate())) age--;
+          return age >= 0 && age <= 120 ? age : null;
+        };
+        const updateAgeText = () => { const a = calcAge(form.birthdate.value); ageText.textContent = `Âge: ${a ?? '—'}`; };
+        updateAgeText();
+        form.birthdate.addEventListener('input', updateAgeText);
+        form.birthdate.addEventListener('change', updateAgeText);
+
+        const avatarPrev = $('#profile-avatar-preview');
+        if (u.avatar) { avatarPrev.src = u.avatar; avatarPrev.style.display = 'inline-block'; }
+
+        const renderGallery = () => {
+          const wrap = $('#profile-gallery');
+          wrap.innerHTML = '';
+          (u.gallery || []).forEach((src, idx) => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.innerHTML = `
+              <img src="${src}" alt="img${idx}" />
+              <button class="btn btn-remove" title="Supprimer">Supprimer</button>
+            `;
+            $('.btn-remove', item).addEventListener('click', () => {
+              u.gallery.splice(idx,1);
+              writeUser(u);
+              renderGallery();
+            });
+            wrap.appendChild(item);
+          });
+        };
+        renderGallery();
+
+        // Changer avatar
+        const avatarInput = $('#profile-avatar-input');
+        avatarInput.addEventListener('change', () => {
+          const f = avatarInput.files[0];
+          if (!f) return;
+          const reader = new FileReader();
+          reader.onload = () => { u.avatar = reader.result; writeUser(u); avatarPrev.src = u.avatar; avatarPrev.style.display = 'inline-block'; };
+          reader.readAsDataURL(f);
+        });
+
+        // Ajouter à la galerie
+        const galleryInput = $('#profile-gallery-input');
+        galleryInput.addEventListener('change', async () => {
+          const files = Array.from(galleryInput.files||[]);
+          for (const f of files){
+            const data = await new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=()=>res(null); r.readAsDataURL(f); });
+            if (data){ u.gallery = u.gallery || []; u.gallery.push(data); }
+          }
+          writeUser(u);
+          renderGallery();
+          galleryInput.value = '';
+        });
+
+        // Sauvegarder infos
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          u.name = form.name.value.trim();
+          u.surname = form.surname.value.trim();
+          u.birthdate = form.birthdate.value || null;
+          u.age = calcAge(u.birthdate);
+          u.location = form.location.value.trim();
+          u.email = form.email.value.trim();
+          writeUser(u);
+          alert('Profil mis à jour');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

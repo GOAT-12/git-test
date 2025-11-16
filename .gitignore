@@ -1,0 +1,35 @@
+# Fichiers générés et logs
+*.log
+*.tmp
+*.cache
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Éditeurs de code
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Fichiers de build et distribution
+dist/
+build/
+*.min.js
+*.min.css
+
+# Dépendances node (si ajoutées plus tard)
+node_modules/
+package-lock.json
+
+# Archives et sauvegardes
+*.zip
+*.tar.gz
+*.rar
+
+# Notes personnelles
+NOTES.md
+TODO.md

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion • Travel</title>
+  <link rel="stylesheet" href="goat.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <header>
+    <div class="logo-div">
+      <div class="logo">
+        <p>Aris<span>.Dev</span></p>
+      </div>
+    </div>
+    <ul>
+      <li><a href="goat.html">Home</a></li>
+      <li><a href="goat.html#destinations">Destination</a></li>
+      <li><a href="goat.html#pricing">Pricing</a></li>
+      <li><a href="goat.html#reviews">Reviews</a></li>
+    </ul>
+    <div class="btn-header">
+      <button class="btn">
+        <i class="fa-solid fa-user"></i>
+        <span>Se connecter</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="email-tipt">
+    <h1 class="title">Connexion</h1>
+    <div class="together">
+      <div class="text">
+        <p class="small-desc">Bienvenue ! Connectez-vous pour réserver et profiter d'une expérience personnalisée.</p>
+      </div>
+      <form id="login-form" class="input" style="flex-direction: column; gap: 10px; padding: 16px; max-width: 480px; width: 100%;">
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Mot de passe" required />
+        <button type="submit" class="btn"><i class="fa-solid fa-right-to-bracket"></i> Se connecter</button>
+        <div style="text-align:center; margin-top:8px;">
+          <a href="signup.html">Créer un compte</a>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="logo">
+      <p>Aris<span>.Dev</span></p>
+    </div>
+    <p class="right-footer">All right are reserved <span>&copy; 2024</span></p>
+  </footer>
+  <script src="auth.js"></script>
+</body>
+</html>
